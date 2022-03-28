@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include <BluetoothSerial.h>
-#include <LITTLEFS.h>
 #include "LFS_HELPER.hpp"
 
 #define FORMAT 0 // format on boot if set to 1
