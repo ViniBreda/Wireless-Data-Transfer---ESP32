@@ -1,9 +1,6 @@
 #include <Arduino.h>
 #include <BluetoothSerial.h>
 #include <LITTLEFS.h>
-//#include "littlefs_helper.h"
-
-BluetoothSerial BT;
 
 #define FORMAT 0 // format on boot if set to 1
 
@@ -23,6 +20,10 @@ void renameFile(fs::FS &fs, const char * path1, const char * path2);
 
 void deleteFile(fs::FS &fs, const char * path);
 
+BluetoothSerial BT;
+
+const int BUFFER_SIZE=250;
+char buf[BUFFER_SIZE];
 
 void setup() {
   // Setup Serial Monitor
@@ -39,7 +40,7 @@ void setup() {
   // Setup File System
   if(!LITTLEFS.begin())
     Serial.println("LittleFS not Mounted");
-  else
+  else{
     Serial.println("LittleFS Mounted!");
     if(FORMAT){ // Format drive if needed
       Serial.println("Formatting Drive...");
@@ -47,18 +48,18 @@ void setup() {
       LITTLEFS.format();
       Serial.println((String)"After formatting: "+LITTLEFS.usedBytes()+"/"+LITTLEFS.totalBytes());
     }
-    createDir(LITTLEFS, "/storage"); // Create directory for file to be stored
+    //createDir(LITTLEFS, "/storage"); // Create directory for file to be stored
+    //readFile(LITTLEFS, "/storage/loremipsum.txt");
+  }
+
 }
 
 
 void loop() {
   if(BT.available()){
     Serial.println("Writing to File loremimpsum.txt...");
-    writeFile(LITTLEFS, "/storage/loremipsum.txt", BT.read());
-    Serial.println("==================== F I L E   C O N T E N T ====================");
-    readFile(LITTLEFS, "/storage/loremipsum.txt");
-
-
+    BT.readBytes(buf, BUFFER_SIZE);
+    appendFile(LITTLEFS, "/storage/loremipsum.txt", buf);
   }
 
 
