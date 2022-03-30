@@ -6,7 +6,7 @@
 * The receiver PCB is just a normal DOIT Devkit 1 remake to learn how to use KiCad;
 * This is just a concept, not all funcionalities will be developed/tested as the main goal is to send a file over a Wireless Conection.
 
-##* TODO : 
+## TODO : 
  * Enable/Disable BT file transfer - DONE
  * Write WiFi AP file transfer
  * Test WiFi Long Range and Normal WiFi
