@@ -1,22 +1,21 @@
 #include <Arduino.h>
 #include <BluetoothSerial.h>
 #include <WiFi.h>
+#include <ESPAsyncWebServer.h>
 #include <time.h>
 #include "LFS_HELPER.hpp"
 
 
 #define FORMAT   0 // format on boot if set to 1
 #define SEND     4 // SEND button GPIO
+
 #define BTTOGGLE 2 // Bluetooth append to file toggle
 #define BTNAME   "Data Transmissor" // define bluetooth device name
-
-// // receiver tests
-// #define SSID     "Data Transmissor" // define wifi network name
-// #define PW       "testpw123" // encrypt pw later
-// String header; // string to store HTTP requests
-// WifiServer server(80);
-
 BluetoothSerial BT;
+
+#define SSID     "Data Transmissor" // define wifi network name
+#define PW       "testpw123" // encrypt pw later
+AsyncWebServer server(80);
 
 const int BUFFER_SIZE = 255;
 char buf[BUFFER_SIZE]; // so Serial RX buffer is not overflown with data
@@ -30,17 +29,6 @@ void setup() {
   // Setup Serial Monitor
   Serial.begin(115200);
   Serial.println();
-
-  // // Setup WiFi AP - receiver tests
-  // if (!WiFi.softAP(SSID, PW)){
-  //   Serial.println("WiFi not Started");
-  // } else {
-  //   Serial.println("WiFi Started!");
-  //   IPAddress IP = WiFi.softAPIP();
-  //   Serial.println((String)"AP IP address: " + IP);
-  //   server.begin();
-  // }
-  
 
   // Setup Bluetooth Server
   Serial.println("BT Disabled - Append Disabled");
@@ -59,6 +47,22 @@ void setup() {
     }
     //readFile(LITTLEFS, "/storage/loremipsum.txt");
   }
+
+  // WiFi Station Setup
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(SSID, PW);
+  while (WiFi.status() != WL_CONNECTED){
+    delay(500);
+    Serial.println("Connecting to WiFi...");
+  }
+  
+  Serial.println(WiFi.localIP());
+  server.on("/download", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    request->send(LITTLEFS, "/storage/loremipsum.txt", "text/plain", true);
+  });
+
+  server.begin();
+
   delay(50); // delay to give time for input pin to be set properly
 }
 
@@ -84,33 +88,6 @@ void loop() {
           appendFile(LITTLEFS, "/storage/loremipsum.txt", buf);
         }
       }
-    }
-    
+    } 
   }
-  
-
-  // receiver tests
-  // WiFiClient client = server.available(); // listen for incoming clients
-  // if (client){
-  //   Serial.println("New Client!");
-  //   String currentLine = "";
-  //   while (client.connected()) {
-  //     if (client.available()) {
-  //       char c = client.read();
-  //       Serial.write(c);
-  //       header += c;
-  //       if (c == '\n') {
-  //         if (currentLine.length() == 0) {
-
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-/* TODO : 
- - Enable/Disable BT file transfer - DONE
- - Write WiFi AP file transfer
- - Test WiFi Long Range and Normal WiFi
-*/
 }
