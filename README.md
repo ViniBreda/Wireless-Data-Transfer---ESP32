@@ -5,3 +5,9 @@
 * The PCB of the transmission board was designed considering up to eight I²C devices connected to it to works as a sensor DataLogger;
 * The receiver PCB is just a normal DOIT Devkit 1 remake to learn how to use KiCad;
 * This is just a concept, not all funcionalities will be developed/tested as the main goal is to send a file over a Wireless Conection.
+
+##* TODO : 
+ * Enable/Disable BT file transfer - DONE
+ * Write WiFi AP file transfer
+ * Test WiFi Long Range and Normal WiFi
+
