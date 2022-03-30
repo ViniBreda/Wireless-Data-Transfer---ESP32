@@ -16,21 +16,20 @@
 // String header; // string to store HTTP requests
 // WifiServer server(80);
 
-
 BluetoothSerial BT;
 
 const int BUFFER_SIZE = 255;
 char buf[BUFFER_SIZE]; // so Serial RX buffer is not overflown with data
 bool send_signal = false; // to detect whether the software is supposed to send data or not
-bool bt_append = true; // whether or not to append received BT data to LoremIpsum.txt
+bool bt_append = false; // whether or not to append received BT data to LoremIpsum.txt
 
 void setup() {
   pinMode(SEND, INPUT);
   pinMode(BTTOGGLE, INPUT);
+  digitalWrite(BTTOGGLE, HIGH);
   // Setup Serial Monitor
   Serial.begin(115200);
   Serial.println();
-
 
   // // Setup WiFi AP - receiver tests
   // if (!WiFi.softAP(SSID, PW)){
@@ -44,11 +43,7 @@ void setup() {
   
 
   // Setup Bluetooth Server
-  if (!BT.begin(BTNAME)){
-    Serial.println("BT Device not Started");
-  } else {
-    Serial.println("BT Started!");
-  }
+  Serial.println("BT Disabled - Append Disabled");
 
   // Setup File System
   if (!LITTLEFS.begin())
@@ -64,16 +59,17 @@ void setup() {
     }
     //readFile(LITTLEFS, "/storage/loremipsum.txt");
   }
-
+  delay(50); // delay to give time for input pin to be set properly
 }
 
 
 void loop() {
-
   // ==============================   R E A D   B L U E T O O T H   D A T A   ==============================
-  if (!digitalRead(BTTOGGLE)){ // debounce circuit output high, command trigger on LOW
-    bt_append = !bt_append;    // toggle append enable and disable, 
-    if (!bt_append)
+  if (!digitalRead(BTTOGGLE)) { // debounce circuit output high, command trigger on LOW
+    Serial.println("BTTOGGLE");
+    bt_append = !bt_append;     // toggle append enable and disable
+    Serial.println(bt_append);
+    if (bt_append == false)
     {
       BT.end();
       Serial.println("BT Disabled - Append Disabled");
