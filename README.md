@@ -8,6 +8,8 @@
 
 ## TODO : 
  * Enable/Disable BT file transfer - DONE
- * Write WiFi AP file transfer
+ * Write WiFi AP file transfer - DONE
+ * RTC sync to log time of [HTTP] GET request
+ * RTC sync to execute [HTTP] GET request every 5 minutes
  * Test WiFi Long Range and Normal WiFi
 
