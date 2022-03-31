@@ -152,7 +152,7 @@ void loop() {
           {
             Serial.println((String)"[HTTP] GET... failed, error: " + http.errorToString(httpCode).c_str());
           }
-          
+            
         }
         http.end();
 
