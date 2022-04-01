@@ -22,6 +22,7 @@
   #define LED 2 // using board LED to indicate file was received
   struct tm data; // create struct that contains time information
   #define MINUTES 2 // define get request time if there are stations connected to the softAP
+  time_t tt = time(NULL); // set current time in seconds for the first time
 #endif
 
 #define SSID     "Data Transmission" // define wifi network name
@@ -37,7 +38,6 @@ void setup() {
     timeval tv;
     tv.tv_sec = 1648783914; // set up RTC unix time
     settimeofday(&tv, NULL); // keeps unix time updated
-    time_t tt = time(NULL); // current time in seconds
   #endif
 
   // Setup Serial Monitor
