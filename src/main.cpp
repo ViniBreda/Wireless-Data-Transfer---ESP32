@@ -1,16 +1,15 @@
 #include <Arduino.h>
-#include <BluetoothSerial.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
-#include <ESPAsyncWebServer.h>
-#include <HTTPClient.h>
-#include <time.h>
 #include "LFS_HELPER.hpp"
 
-#define DEVICE 0 // Transmissor -> 0; Base -> 1
-#define FORMAT 0 // format on boot if set to 1
+#define DEVICE 1  // Transmissor -> 0; Base -> 1
+#define FORMAT 1 // format on boot if set to 1
 
 #if DEVICE == 0
+
+  #include <ESPAsyncWebServer.h>
+  #include <BluetoothSerial.h>
   #define BTTOGGLE 2 // Bluetooth append to file toggle
   #define BTNAME   "Data Transmissor" // define bluetooth device name
   BluetoothSerial BT; // BluetoothSerial object creation
@@ -19,14 +18,16 @@
   bool bt_append = false; // whether or not to append received BT data to LoremIpsum.txt
   AsyncWebServer server(80); // Server object creation
 #else
+  #include <HTTPClient.h>
+  #include <time.h>
   #define LED 2 // using board LED to indicate file was received
   struct tm data; // create struct that contains time information
   #define MINUTES 2 // define get request time if there are stations connected to the softAP
   time_t tt = time(NULL); // set current time in seconds for the first time
 #endif
 
-#define SSID     "Data Transmission" // define wifi network name
-#define PW       "testpw123" // encrypt pw later
+#define SSID "Data Transmission" // define wifi network name
+#define PW   "testpw123" // encrypt pw later
 
 void setup() {
 
@@ -56,12 +57,6 @@ void setup() {
       LITTLEFS.format();
       Serial.println((String)"After formatting: " + LITTLEFS.usedBytes() + "/" + LITTLEFS.totalBytes());
       createDir(LITTLEFS, "/storage"); // Create directory for file to be stored on first boot
-      if (!LITTLEFS.exists("/storage/loremipsum.txt"))
-      {
-        File file = LITTLEFS.open("/storage/loremispum.txt", FILE_WRITE);
-        file.print("");
-        file.close();
-      }
     }
   }
 
@@ -121,6 +116,7 @@ void loop() {
       } 
     }
   #else
+    Serial.println((String)( (long int)tt + " " + time(NULL)));
     if( ( WiFi.softAPgetStationNum() > 0 ) && ( ( (long int)tt + (MINUTES * 60) ) <= ( time(NULL) ) ) ) // if there's something connected and two minutes have passed do get request
     {
       // setup to get connected devices list
@@ -148,7 +144,7 @@ void loop() {
         
         // setup for HTTP request for HTTP Server on the transmission boards
         HTTPClient http;
-        http.begin((String)"http://"+ ip4addr_ntoa(&(station.ip)) + ":80/donwload");
+        http.begin((String)"http://"+ ip4addr_ntoa(&(station.ip)) + "/donwload");
         int httpCode = http.GET();
         if (httpCode > 0)
         {
@@ -170,9 +166,6 @@ void loop() {
         http.end();
         tt = time(NULL); // updates time variable so it can run again
       }
-      
-
-      
     }
   #endif
   
