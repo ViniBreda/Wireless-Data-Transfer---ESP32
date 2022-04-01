@@ -3,11 +3,9 @@
 #include <esp_wifi.h>
 #include "LFS_HELPER.hpp"
 
-#define DEVICE 1  // Transmissor -> 0; Base -> 1
-#define FORMAT 1 // format on boot if set to 1
+#define DEVICE 1 // Transmissor -> 0; Base -> 1
 
 #if DEVICE == 0
-
   #include <ESPAsyncWebServer.h>
   #include <BluetoothSerial.h>
   #define BTTOGGLE 2 // Bluetooth append to file toggle
@@ -22,8 +20,8 @@
   #include <time.h>
   #define LED 2 // using board LED to indicate file was received
   struct tm data; // create struct that contains time information
-  #define MINUTES 2 // define get request time if there are stations connected to the softAP
-  time_t tt = time(NULL); // set current time in seconds for the first time
+  #define MINUTES 0.1 // define get request time if there are stations connected to the softAP
+  time_t tt;
 #endif
 
 #define SSID "Data Transmission" // define wifi network name
@@ -36,6 +34,7 @@ void setup() {
     delay(50); // delay to give time for input pin to be set properly
   #else
     pinMode(LED, OUTPUT);
+    tt = time(NULL); // set current time in seconds for the first time
     timeval tv;
     tv.tv_sec = 1648783914; // set up RTC unix time
     settimeofday(&tv, NULL); // keeps unix time updated
@@ -48,19 +47,12 @@ void setup() {
   // Setup File System
   if (!LITTLEFS.begin())
     Serial.println("LittleFS not Mounted");
-  else{
+  else
+  {
     Serial.println("LittleFS Mounted!");
-    if (FORMAT)
-    { // Format drive if needed
-      Serial.println("Formatting Drive...");
-      Serial.println((String)"Previously Used Bytes: " + LITTLEFS.usedBytes() + "/" + LITTLEFS.totalBytes());
-      LITTLEFS.format();
-      Serial.println((String)"After formatting: " + LITTLEFS.usedBytes() + "/" + LITTLEFS.totalBytes());
-      createDir(LITTLEFS, "/storage"); // Create directory for file to be stored on first boot
-    }
+    createDir(LITTLEFS, "/storage"); // Create directory for file to be stored on first boot
   }
 
-  
   #if DEVICE == 0
     // WiFi Station Setup
     WiFi.mode(WIFI_STA);
@@ -83,7 +75,6 @@ void setup() {
     } else { 
       Serial.println("WiFi AP Created!");
       Serial.println(WiFi.softAPIP());
-      WiFi.setTxPower(WIFI_POWER_19_5dBm); // set WiFi Power to Highest Level
     }
     
   #endif
@@ -92,7 +83,14 @@ void setup() {
 
 
 void loop() {
+  // Serial.println((String) ((long int)tt + "/" + time(NULL)));
   #if DEVICE == 0
+    // if not connected or if lost connection try to reconnect
+    while (WiFi.status() != WL_CONNECTED){
+      delay(500);
+      Serial.println("Connecting to WiFi...");
+    }
+    Serial.println(WiFi.localIP());
     // ==============================   R E A D   B L U E T O O T H   D A T A   ==============================
     if (!digitalRead(BTTOGGLE)) { // debounce circuit output high, command trigger on LOW
       Serial.println("BTTOGGLE");
@@ -115,9 +113,8 @@ void loop() {
         }
       } 
     }
-  #else
-    Serial.println((String)( (long int)tt + " " + time(NULL)));
-    if( ( WiFi.softAPgetStationNum() > 0 ) && ( ( (long int)tt + (MINUTES * 60) ) <= ( time(NULL) ) ) ) // if there's something connected and two minutes have passed do get request
+  #else    
+    if( ( WiFi.softAPgetStationNum() > 0 ) && ( ( tt + (MINUTES * 60) ) <= ( time(NULL) ) ) ) // if there's something connected and two minutes have passed do get request
     {
       // setup to get connected devices list
       wifi_sta_list_t wifi_sta_list;
@@ -144,7 +141,7 @@ void loop() {
         
         // setup for HTTP request for HTTP Server on the transmission boards
         HTTPClient http;
-        http.begin((String)"http://"+ ip4addr_ntoa(&(station.ip)) + "/donwload");
+        http.begin((String)"http://"+ ip4addr_ntoa(&(station.ip)) + ":80/download");
         int httpCode = http.GET();
         if (httpCode > 0)
         {
