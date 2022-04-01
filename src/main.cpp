@@ -21,6 +21,7 @@
 #else
   #define LED 2 // using board LED to indicate file was received
   struct tm data; // create struct that contains time information
+  #define MINUTES 2 // define get request time if there are stations connected to the softAP
 #endif
 
 #define SSID     "Data Transmission" // define wifi network name
@@ -119,7 +120,7 @@ void loop() {
       } 
     }
   #else
-    if( ( WiFi.softAPgetStationNum() > 0 ) && ( ( (long int)tt + 120 ) <= ( time(NULL) ) ) ) // if there's something connected and two minutes have passed do get request
+    if( ( WiFi.softAPgetStationNum() > 0 ) && ( ( (long int)tt + (MINUTES * 60) ) <= ( time(NULL) ) ) ) // if there's something connected and two minutes have passed do get request
     {
       // setup to get connected devices list
       wifi_sta_list_t wifi_sta_list;
@@ -158,6 +159,7 @@ void loop() {
             file.println((String)"IP: " + ip4addr_ntoa(&(station.ip)));
             http.writeToStream(&file);
             file.close();
+            digitalWrite(LED, HIGH); // turn on OnBoard LED if file was received
           } else
           {
             Serial.println((String)"[HTTP] GET... failed, error: " + http.errorToString(httpCode).c_str());
