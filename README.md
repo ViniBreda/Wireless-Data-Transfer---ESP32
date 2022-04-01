@@ -12,5 +12,5 @@
  * [x] RTC sync to log time of [HTTP] GET request
  * [x] RTC sync to execute [HTTP] GET request every 5 minutes
  * [ ] Test WiFi Long Range and Normal WiFi
- * [x] Successful test on cellphone hosted WiFi Hotspot - Download file via http://ESP-IP-ADDRESS/DOWNLOAD
+ * [x] Successful test on cellphone hosted WiFi Hotspot - Download file via http://ESP-IP-ADDRESS/download
 
