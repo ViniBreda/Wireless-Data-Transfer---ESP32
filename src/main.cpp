@@ -7,8 +7,8 @@
 #include <time.h>
 #include "LFS_HELPER.hpp"
 
-#define DEVICE     1 // Transmissor -> 0; Base -> 1
-#define FORMAT     0 // format on boot if set to 1
+#define DEVICE 1 // Transmissor -> 0; Base -> 1
+#define FORMAT 0 // format on boot if set to 1
 
 #if DEVICE == 0
   #define BTTOGGLE 2 // Bluetooth append to file toggle
@@ -18,6 +18,9 @@
   char buf[BUFFER_SIZE]; // so Serial RX buffer is not overflown with data
   bool bt_append = false; // whether or not to append received BT data to LoremIpsum.txt
   AsyncWebServer server(80); // Server object creation
+#else
+  #define LED 2 // using board LED to indicate file was received
+  struct tm data; // create struct that contains time information
 #endif
 
 #define SSID     "Data Transmission" // define wifi network name
@@ -28,6 +31,12 @@ void setup() {
   #if DEVICE == 0
     pinMode(BTTOGGLE, INPUT);
     delay(50); // delay to give time for input pin to be set properly
+  #else
+    pinMode(LED, OUTPUT);
+    timeval tv;
+    tv.tv_sec = 1648783914; // set up RTC unix time
+    settimeofday(&tv, NULL); // keeps unix time updated
+    time_t tt = time(NULL); // current time in seconds
   #endif
 
   // Setup Serial Monitor
@@ -77,6 +86,7 @@ void setup() {
     } else { 
       Serial.println("WiFi AP Created!");
       Serial.println(WiFi.softAPIP());
+      WiFi.setTxPower(WIFI_POWER_19_5dBm); // set WiFi Power to Highest Level
     }
     
   #endif
@@ -109,7 +119,7 @@ void loop() {
       } 
     }
   #else
-    if(WiFi.isConnected())
+    if( ( WiFi.softAPgetStationNum() > 0 ) && ( ( (long int)tt + 120 ) <= ( time(NULL) ) ) ) // if there's something connected and two minutes have passed do get request
     {
       // setup to get connected devices list
       wifi_sta_list_t wifi_sta_list;
@@ -155,7 +165,7 @@ void loop() {
             
         }
         http.end();
-
+        tt = time(NULL); // updates time variable so it can run again
       }
       
 
