@@ -7,7 +7,7 @@
 #include <time.h>
 #include "LFS_HELPER.hpp"
 
-#define DEVICE 1 // Transmissor -> 0; Base -> 1
+#define DEVICE 0 // Transmissor -> 0; Base -> 1
 #define FORMAT 0 // format on boot if set to 1
 
 #if DEVICE == 0
@@ -49,7 +49,8 @@ void setup() {
     Serial.println("LittleFS not Mounted");
   else{
     Serial.println("LittleFS Mounted!");
-    if (FORMAT){ // Format drive if needed
+    if (FORMAT)
+    { // Format drive if needed
       Serial.println("Formatting Drive...");
       Serial.println((String)"Previously Used Bytes: " + LITTLEFS.usedBytes() + "/" + LITTLEFS.totalBytes());
       LITTLEFS.format();

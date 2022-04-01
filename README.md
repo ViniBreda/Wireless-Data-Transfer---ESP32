@@ -7,9 +7,10 @@
 * This is just a concept, not all funcionalities will be developed/tested as the main goal is to send a file over a Wireless Conection.
 
 ## TODO : 
- * Enable/Disable BT file transfer - DONE
- * Write WiFi AP file transfer - DONE
- * RTC sync to log time of [HTTP] GET request - DONE but not being saved
- * RTC sync to execute [HTTP] GET request every 5 minutes - DONE (Every Two Minutes for testing)
- * Test WiFi Long Range and Normal WiFi
+ * [x] Enable/Disable BT file transfer
+ * [x] Write WiFi AP file transfer
+ * [x] RTC sync to log time of [HTTP] GET request
+ * [x] RTC sync to execute [HTTP] GET request every 5 minutes
+ * [ ] Test WiFi Long Range and Normal WiFi
+ * [x] Successful test on cellphone hosted WiFi Hotspot - Download file via http://ESP-IP-ADDRESS/DOWNLOAD
 
