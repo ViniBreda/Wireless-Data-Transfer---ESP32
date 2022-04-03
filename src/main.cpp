@@ -3,8 +3,11 @@
 #include <esp_wifi.h>
 #include "LFS_HELPER.hpp"
 
-#define DEVICE 1 // Transmissor -> 0; Base -> 1
-#define LONGRANGE 0 // Long Range -> 1; Common Range 0
+#define DEVICE 0 // Transmissor -> 0; Base -> 1
+#define LONGRANGE 1 // Long Range -> 1; Common Range 0
+
+#define SSID "Data Transmission" // define wifi network name
+#define PW   "testpw123" // encrypt pw later
 
 #if DEVICE == 0
   #include <ESPAsyncWebServer.h>
@@ -16,6 +19,13 @@
   char buf[BUFFER_SIZE]; // so Serial RX buffer is not overflown with data
   bool bt_append = false; // whether or not to append received BT data to LoremIpsum.txt
   AsyncWebServer server(80); // Server object creation
+  void WiFi_disconnected(WiFiEvent_t event, WiFiEventInfo_t info) {
+    Serial.println("Disconnected from WIFI access point");
+    Serial.print("WiFi lost connection. Reason: ");
+    Serial.println(info.disconnected.reason);
+    Serial.println("Reconnecting...");
+    WiFi.begin(SSID, PW);
+}
 #else
   #include <HTTPClient.h>
   #include <time.h>
@@ -24,9 +34,6 @@
   #define MINUTES 0.1 // define get request time if there are stations connected to the softAP
   time_t tt;
 #endif
-
-#define SSID "Data Transmission" // define wifi network name
-#define PW   "testpw123" // encrypt pw later
 
 void setup() {
 
@@ -39,12 +46,6 @@ void setup() {
     timeval tv;
     tv.tv_sec = 1648783914; // set up RTC unix time
     settimeofday(&tv, NULL); // keeps unix time updated
-  #endif
-
-  #if LONGRANGE == 1
-    WiFi.enableLongRange(true);
-  #else
-    WiFi.enableLongRange(false);
   #endif
 
   // Setup Serial Monitor
@@ -61,6 +62,7 @@ void setup() {
 
   #if DEVICE == 0
     // WiFi Station Setup
+    WiFi.disconnect(true);
     WiFi.mode(WIFI_STA);
     WiFi.begin(SSID, PW);
     while (WiFi.status() != WL_CONNECTED){
@@ -68,6 +70,11 @@ void setup() {
       Serial.println("Connecting to WiFi...");
     }
     Serial.println(WiFi.localIP());
+    WiFi.onEvent(WiFi_disconnected, SYSTEM_EVENT_STA_DISCONNECTED);
+
+    #if LONGRANGE == 1
+      esp_wifi_set_protocol( WIFI_IF_STA, WIFI_PROTOCOL_LR );
+    #endif
 
     // HTTP Async Server Setup
     server.on("/download", HTTP_GET, [] (AsyncWebServerRequest *request) {
@@ -81,6 +88,9 @@ void setup() {
     } else { 
       Serial.println("WiFi AP Created!");
       Serial.println(WiFi.softAPIP());
+      #if LONGRANGE == 1
+        esp_wifi_set_protocol( WIFI_IF_AP, WIFI_PROTOCOL_LR );
+      #endif
     }
   #endif
 }
@@ -89,9 +99,7 @@ void loop() {
   #if DEVICE == 0
     // ==============================   R E A D   B L U E T O O T H   D A T A   ==============================
     if (!digitalRead(BTTOGGLE)) { // debounce circuit output high, command trigger on LOW
-      Serial.println("BTTOGGLE");
       bt_append = !bt_append;     // toggle append enable and disable
-      Serial.println(bt_append);
       if (bt_append == false)
       {
         BT.end();
