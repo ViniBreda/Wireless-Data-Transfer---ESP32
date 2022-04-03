@@ -83,18 +83,10 @@ void setup() {
       Serial.println(WiFi.softAPIP());
     }
   #endif
-  
 }
-
 
 void loop() {
   #if DEVICE == 0
-    // if not connected or if lost connection try to reconnect
-    if (WiFi.status() != WL_CONNECTED){
-      Serial.println("Reconnecting to WiFi...");
-      WiFi.disconnect();
-      WiFi.reconnect();
-    }
     // ==============================   R E A D   B L U E T O O T H   D A T A   ==============================
     if (!digitalRead(BTTOGGLE)) { // debounce circuit output high, command trigger on LOW
       Serial.println("BTTOGGLE");
@@ -171,7 +163,4 @@ void loop() {
       tt = time(NULL); // updates time variable so it can run again
     }
   #endif
-  
-  
-  
 }
