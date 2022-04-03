@@ -98,7 +98,6 @@ void loop() {
       Serial.println("Connecting to WiFi...");
       WiFi.reconnect();
     }
-    Serial.println(WiFi.localIP());
     // ==============================   R E A D   B L U E T O O T H   D A T A   ==============================
     if (!digitalRead(BTTOGGLE)) { // debounce circuit output high, command trigger on LOW
       Serial.println("BTTOGGLE");
