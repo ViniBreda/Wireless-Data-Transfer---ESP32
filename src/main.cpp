@@ -12,7 +12,7 @@
 #if DEVICE == 0
   #include <ESPAsyncWebServer.h>
   #include <BluetoothSerial.h>
-  #define BTTOGGLE 2 // Bluetooth append to file toggle
+  #define BTTOGGLE 4 // Bluetooth append to file toggle
   #define BTNAME   "Data Transmissor" // define bluetooth device name
   BluetoothSerial BT; // BluetoothSerial object creation
   const int BUFFER_SIZE = 255;
