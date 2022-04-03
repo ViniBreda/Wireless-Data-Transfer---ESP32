@@ -3,7 +3,7 @@
 #include <esp_wifi.h>
 #include "LFS_HELPER.hpp"
 
-#define DEVICE 0 // Transmissor -> 0; Base -> 1
+#define DEVICE 1 // Transmissor -> 0; Base -> 1
 #define LONGRANGE 0 // Long Range -> 1; Common Range 0
 
 #if DEVICE == 0
@@ -96,9 +96,9 @@ void loop() {
     while (WiFi.status() != WL_CONNECTED){
       delay(500);
       Serial.println("Connecting to WiFi...");
-      WiFi.reconnect();
+      WiFi.disconnect();
+      WiFi.begin(SSID, PW);
     }
-    Serial.println(WiFi.localIP());
     // ==============================   R E A D   B L U E T O O T H   D A T A   ==============================
     if (!digitalRead(BTTOGGLE)) { // debounce circuit output high, command trigger on LOW
       Serial.println("BTTOGGLE");
@@ -161,6 +161,7 @@ void loop() {
             file.println((String)"IP: " + ip4addr_ntoa(&(station.ip)));
             http.writeToStream(&file);
             file.close();
+            Serial.println(readFile(LITTLEFS, "/storage/loremipsum.txt"));
             digitalWrite(LED, HIGH); // turn on OnBoard LED if file was received
           } else
           {
