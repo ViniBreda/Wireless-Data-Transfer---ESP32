@@ -3,7 +3,8 @@
 #include <esp_wifi.h>
 #include "LFS_HELPER.hpp"
 
-#define DEVICE 1 // Transmissor -> 0; Base -> 1
+#define DEVICE 0 // Transmissor -> 0; Base -> 1
+#define LONGRANGE 0 // Long Range -> 1; Common Range 0
 
 #if DEVICE == 0
   #include <ESPAsyncWebServer.h>
@@ -40,9 +41,14 @@ void setup() {
     settimeofday(&tv, NULL); // keeps unix time updated
   #endif
 
+  #if LONGRANGE == 1
+    WiFi.enableLongRange(true);
+  #else
+    WiFi.enableLongRange(false);
+  #endif
+
   // Setup Serial Monitor
   Serial.begin(115200);
-  Serial.println();
 
   // Setup File System
   if (!LITTLEFS.begin())
@@ -57,6 +63,7 @@ void setup() {
     // WiFi Station Setup
     WiFi.mode(WIFI_STA);
     WiFi.begin(SSID, PW);
+    WiFi.setAutoReconnect(true);
     while (WiFi.status() != WL_CONNECTED){
       delay(500);
       Serial.println("Connecting to WiFi...");
@@ -89,6 +96,7 @@ void loop() {
     while (WiFi.status() != WL_CONNECTED){
       delay(500);
       Serial.println("Connecting to WiFi...");
+      WiFi.reconnect();
     }
     Serial.println(WiFi.localIP());
     // ==============================   R E A D   B L U E T O O T H   D A T A   ==============================
