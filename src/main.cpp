@@ -51,7 +51,7 @@ void setup() {
   Serial.begin(115200);
 
   // Setup File System
-  if (!LITTLEFS.begin())
+  if (!LITTLEFS.begin(true))
     Serial.println("LittleFS not Mounted");
   else
   {
@@ -63,7 +63,6 @@ void setup() {
     // WiFi Station Setup
     WiFi.mode(WIFI_STA);
     WiFi.begin(SSID, PW);
-    WiFi.setAutoReconnect(true);
     while (WiFi.status() != WL_CONNECTED){
       delay(500);
       Serial.println("Connecting to WiFi...");
@@ -83,21 +82,18 @@ void setup() {
       Serial.println("WiFi AP Created!");
       Serial.println(WiFi.softAPIP());
     }
-    
   #endif
   
 }
 
 
 void loop() {
-  // Serial.println((String) ((long int)tt + "/" + time(NULL)));
   #if DEVICE == 0
     // if not connected or if lost connection try to reconnect
-    while (WiFi.status() != WL_CONNECTED){
-      delay(500);
-      Serial.println("Connecting to WiFi...");
+    if (WiFi.status() != WL_CONNECTED){
+      Serial.println("Reconnecting to WiFi...");
       WiFi.disconnect();
-      WiFi.begin(SSID, PW);
+      WiFi.reconnect();
     }
     // ==============================   R E A D   B L U E T O O T H   D A T A   ==============================
     if (!digitalRead(BTTOGGLE)) { // debounce circuit output high, command trigger on LOW
@@ -122,7 +118,7 @@ void loop() {
       } 
     }
   #else    
-    if( ( WiFi.softAPgetStationNum() > 0 ) && ( ( tt + (MINUTES * 60) ) <= ( time(NULL) ) ) ) // if there's something connected and two minutes have passed do get request
+    if( ( WiFi.softAPgetStationNum() > 0 ) && ( ( tt + (MINUTES * 60) ) <= ( time(NULL) ) )) // if there's something connected and two minutes have passed do get request
     {
       // setup to get connected devices list
       wifi_sta_list_t wifi_sta_list;
@@ -161,17 +157,18 @@ void loop() {
             file.println((String)"IP: " + ip4addr_ntoa(&(station.ip)));
             http.writeToStream(&file);
             file.close();
-            Serial.println(readFile(LITTLEFS, "/storage/loremipsum.txt"));
+            //readFile(LITTLEFS, "/storage/loremipsum.txt");
             digitalWrite(LED, HIGH); // turn on OnBoard LED if file was received
-          } else
+          } 
+          else
           {
             Serial.println((String)"[HTTP] GET... failed, error: " + http.errorToString(httpCode).c_str());
           }
             
         }
         http.end();
-        tt = time(NULL); // updates time variable so it can run again
       }
+      tt = time(NULL); // updates time variable so it can run again
     }
   #endif
   
