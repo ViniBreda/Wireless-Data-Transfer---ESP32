@@ -79,6 +79,7 @@ void setup() {
     // HTTP Async Server Setup
     server.on("/download", HTTP_GET, [] (AsyncWebServerRequest *request) {
       request->send(LITTLEFS, "/storage/loremipsum.txt", "text/plain", true);
+      Serial.println("Sending file: loremipsum.txt");
     });
     server.begin();
 
