@@ -29,7 +29,7 @@ ESP32 was selected over Arduino boards because:
 * 15 analog pins on DOIT ESP32 DevKit 1 that are great for reading data from sound and light sensors, for example;
 * Possibility to code using Arduino syntax, which I'm more familiar to.
 
-Other boards were not considered, such as MSP430 from Texas Instruments or STM32 from STMicroelectronics because of the difficulties to acquire these boards in Brazil with as many functionalities as ESP32 for as low of a price as the DOIT ESP32 Devkit1.
+Other boards were not considered, such as MSP430 from Texas Instruments or STM32 from STMicroelectronics, because of the difficulties to acquire these boards in Brazil with as many functionalities as ESP32 for as low of a price as the DOIT ESP32 Devkit1.
 
 Both transmissor and receiver schematics can be found below:
 
