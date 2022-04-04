@@ -17,17 +17,19 @@
 
 ## Description:
 
-ESP32 was the selected board because:
+ESP32 was selected over Arduino boards because:
 * it has an internal flash memory that can store more than 500kB of data;
 * it has both bluetooth and Wi-Fi onboard;
 * it has Wi-Fi Long Range, which is great for file transfers of up to 1Km;
 * it's low power mode has very low power consumption, which is great for battery powered projects;
 * great market availability, atleast in Brazil;
-* highest clock rate;
+* higher clock rate;
 * internal RTC module;
 * cheap price;
 * 15 analog pins on DOIT ESP32 DevKit 1 that are great for reading data from sound and light sensors, for example;
-* Possibility to code using Arduino syntax, which I'm more familiar to;
+* Possibility to code using Arduino syntax, which I'm more familiar to.
+
+Other boards were not considered, such as MSP430 from Texas Instruments or STM32 from STMicroelectronics because of the difficulties to acquire these boards in Brazil with as many functionalities as ESP32 for as low of a price as the DOIT ESP32 Devkit1.
 
 Both transmissor and receiver schematics can be found below:
 
