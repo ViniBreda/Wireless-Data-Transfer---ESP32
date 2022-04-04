@@ -17,8 +17,6 @@
 
 ## Description:
 
-**For more details, read Wireless_Data_Transfer.pdf (in portuguese)**
-
 ESP32 was the selected board because:
 * it has an internal flash memory that can store more than 500kB of data
 * it has both bluetooth and Wi-Fi onboard
@@ -41,6 +39,8 @@ As there was no need for external components, the schematics would be fairly sim
 
 As I was using KiCAD for the first time, designing both the transmissors and receivers was a great challenge and I'm happy with the final result. Common 9V batteries can be used for thisn project and will power the device for many hours.
 
+The transmissor design sacrifices one of the GPIOs with less functionality to have it as I²C enable for the logic level converter. I²C will work normally with this pin on LOW, but I²C for 5V power 5V logic level signal devices this pin has to be put on high while data is being sent and received. It's a great measure to ensure a lower power draw.
+
 The board design for both transmissor and receiver can be found below:
 
 ![Transmissor - PCB](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCI%20Transmissor.png)
@@ -54,3 +54,9 @@ The board design for both transmissor and receiver can be found below:
 The code written in this project only simulates the transfer of an existing file stored via bluetooth to folder /storage/loremipsum.txt
 
 But it's easily adaptable to work as it was designed to, as a Data Logger.
+
+All KiCAD files are stored at **Arquivos KiCAD**;
+All Schematic images are stored at **Esquematicos**;
+All PCB images are stored at **Placas de Circuito Impresso**.
+
+### For more details, read Wireless_Data_Transfer.pdf (in portuguese)
