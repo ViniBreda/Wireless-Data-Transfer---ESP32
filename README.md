@@ -27,7 +27,7 @@ ESP32 was the selected board because:
 
 Both transmissor and receiver schematics can be found below:
 
-![Transmissor](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/blob/master/Esquematicos/Esquem%C3%A1tico%20do%20Transmissor-1.png
+![Transmissor](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/blob/master/Esquematicos/Esquem%C3%A1tico%20do%20Transmissor-1.png)
 
 ![Receiver](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Esquematicos/Esquem%C3%A1tico%20do%20Receptor-1.png)
 
