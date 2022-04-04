@@ -17,7 +17,7 @@
 
 ## Description:
 
-**For more details, read Wireless_Data_Transfer.pdf**
+**For more details, read Wireless_Data_Transfer.pdf (in portuguese)**
 
 
 ESP32 was the selected board because:
