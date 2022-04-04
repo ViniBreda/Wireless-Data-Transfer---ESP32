@@ -1,6 +1,5 @@
 # Wireless Data Transfer Between two ESP32 - DOIT Devkit
 
-Main goals of the project:
 * File upload via bluetooth available BUT VERY SLOW;
 * Send a 500KB file from one ESP32 to another, atleast 100m apart from eachother;
 * The PCB of the transmission board was designed considering up to eight I²C devices connected to it to works as a sensor DataLogger;
