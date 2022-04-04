@@ -15,3 +15,22 @@
  * [x] Successful test on cellphone hosted WiFi Hotspot - Download file via http://ESP-IP-ADDRESS/download
  * [x] Successful file transfer between two ESP32 boards
 
+## Description:
+
+** For more details, read Wireless_Data_Transfer.pdf**
+
+ESP32 was the selected board because:
+* it has an internal flash memory that can store more than 500kB of data
+* it has both bluetooth and Wi-Fi onboard
+* it has Wi-Fi Long Range, which is great for file transfers of up to 1Km
+* it's low power mode has very low power consumption, which is great for battery powered projects
+
+Both transmissor and receiver schematics can be found below:
+
+![Transmissor](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/blob/master/Esquematicos/Esquem%C3%A1tico%20do%20Transmissor-1.png
+
+![Receiver](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Esquematicos/Esquem%C3%A1tico%20do%20Receptor-1.png)
+
+As there was no need for external components, the schematics would be fairly simple, so I decided to add some details on the transmissor, designing it to be a DataLogger that should read data from it's I²C. This required a logic level converter for I²C devices that need 5V for power and output 5V logic level signals, as ESP32's high level is 3.3V maximum.
+
+As I was using KiCAD for the first time, designing both the transmissors and receivers was a great challenge and I'm happy with the final result.
