@@ -35,3 +35,13 @@ Both transmissor and receiver schematics can be found below:
 As there was no need for external components, the schematics would be fairly simple, so I decided to add some details on the transmissor, designing it to be a DataLogger that should read data from it's I²C. This required a logic level converter for I²C devices that need 5V for power and output 5V logic level signals, as ESP32's high level is 3.3V maximum.
 
 As I was using KiCAD for the first time, designing both the transmissors and receivers was a great challenge and I'm happy with the final result.
+
+The board design for both transmissor and receiver can be found below:
+
+![Transmissor - PCB](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCI%20Transmissor.png)
+
+![Transmissor - PCB 3D](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCI%20Transmissor-3D.png)
+
+![Receiver - PCB](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCB-Receptor.png)
+
+![Receiver - PCB 3D](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCB-Receptor-3D.png)
