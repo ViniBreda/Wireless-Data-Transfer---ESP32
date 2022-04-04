@@ -55,8 +55,8 @@ The code written in this project only simulates the transfer of an existing file
 
 But it's easily adaptable to work as it was designed to, as a Data Logger.
 
-All KiCAD files are stored at **Arquivos KiCAD**;
-All Schematic images are stored at **Esquematicos**;
-All PCB images are stored at **Placas de Circuito Impresso**.
+* All KiCAD files are stored at **Arquivos KiCAD**;
+* All Schematic images are stored at **Esquematicos**;
+* All PCB images are stored at **Placas de Circuito Impresso**.
 
 ### For more details, read Wireless_Data_Transfer.pdf (in portuguese)
