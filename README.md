@@ -18,16 +18,16 @@
 ## Description:
 
 ESP32 was the selected board because:
-* it has an internal flash memory that can store more than 500kB of data
-* it has both bluetooth and Wi-Fi onboard
-* it has Wi-Fi Long Range, which is great for file transfers of up to 1Km
-* it's low power mode has very low power consumption, which is great for battery powered projects
-* great market availability, atleast in Brazil
-* highest clock rate
-* internal RTC module
-* cheap price
-* 15 analog pins on DOIT ESP32 DevKit 1 that are great for reading data from sound and light sensors, for example
-* Possibility to code using Arduino syntax, which I'm more familiar to
+* it has an internal flash memory that can store more than 500kB of data;
+* it has both bluetooth and Wi-Fi onboard;
+* it has Wi-Fi Long Range, which is great for file transfers of up to 1Km;
+* it's low power mode has very low power consumption, which is great for battery powered projects;
+* great market availability, atleast in Brazil;
+* highest clock rate;
+* internal RTC module;
+* cheap price;
+* 15 analog pins on DOIT ESP32 DevKit 1 that are great for reading data from sound and light sensors, for example;
+* Possibility to code using Arduino syntax, which I'm more familiar to;
 
 Both transmissor and receiver schematics can be found below:
 
@@ -43,7 +43,9 @@ The transmissor design sacrifices one of the GPIOs with less functionality to ha
 
 The board design for both transmissor and receiver can be found below:
 
-![Transmissor - PCB](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCI%20Transmissor.png)
+<p align="center">
+  <img width="460" height="300" src="https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCI%20Transmissor.png">
+</p>
 
 ![Transmissor - PCB 3D](https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCI%20Transmissor-3D.png)
 
