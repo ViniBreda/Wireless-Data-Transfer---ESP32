@@ -44,13 +44,13 @@ The transmissor design sacrifices one of the GPIOs with less functionality to ha
 The board design for both transmissor and receiver can be found below:
 
 <p align="left">
-  <img width="300" height="460" src="https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCI%20Transmissor.png">
-  <img width="300" height="460" src="https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCI%20Transmissor-3D.png">
+  <img width="400" height="560" src="https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCI%20Transmissor.png">
+  <img width="400" height="560" src="https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCI%20Transmissor-3D.png">
 </p>
 
 <p align="left">
-  <img width="300" height="460" src="https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCB-Receptor.png">
-  <img width="300" height="460" src="https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCB-Receptor-3D.png">
+  <img width="400" height="560" src="https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCB-Receptor.png">
+  <img width="400" height="560" src="https://github.com/ViniBreda/Wireless-Data-Transfer---ESP32/raw/master/Placas%20de%20Circuito%20Impresso/PCB-Receptor-3D.png">
 </p>
 
 The code written in this project only simulates the transfer of an existing file stored via bluetooth to folder /storage/loremipsum.txt
