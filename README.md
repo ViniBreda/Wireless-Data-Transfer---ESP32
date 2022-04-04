@@ -17,7 +17,8 @@
 
 ## Description:
 
-** For more details, read Wireless_Data_Transfer.pdf**
+**For more details, read Wireless_Data_Transfer.pdf**
+
 
 ESP32 was the selected board because:
 * it has an internal flash memory that can store more than 500kB of data
